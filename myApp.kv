@@ -1,0 +1,262 @@
+<RsaApp>:
+ Screen:
+  name:"homePage"
+  BoxLayout:
+   size:root.width,root.height
+   GridLayout:
+    cols:1
+    Label:
+     background_color:"green"
+     text:"The RSA Encrypting and Decrypting machine"
+     color:"yellow"
+     font_size:50
+    Label:
+     text:"Select the task you like to perform from below"
+    Button:
+     background_color:"green"
+     id:toGen
+     on_release:root.current="genTn"
+     text:"Generate RSA tokens"
+    Button:
+     background_color:"#00FFCE"
+     id:toEnco
+     on_release:
+      root.current="EncodePage"
+      root.ids.err.text =""
+      root.ids.pbk1.text=""
+      root.ids.totk.text = ""
+      root.ids.msgEn.text =""
+     text:"Encode message"
+    Button:
+     background_color:"green"
+     id:toDeco
+     on_release:
+      root.current="decryptMsgPage"
+      root.ids.err2.text =""
+      root.ids.tot2.text =""
+      root.ids.msgDcr.text=""
+      root.ids.prk1.text =""
+     text:"Decode an encrypted message"
+    Label:
+     text:"For guide on how to use this machine and its source code visit ..."
+     text_size:self.width,self.height
+     #align:"center"
+    Button:
+     size_hint:1,0.5
+     on_release:exit()
+     text:"Exit"
+ Screen:
+  name:"genTn"
+  BoxLayout:
+   size:root.width,root.height
+   orientation:"vertical"
+   GridLayout:
+    cols:1
+    Label:
+     text:"RSA Token Generation page"
+     color:"yellow"
+     font_size:80
+     size_hint:1,0.5
+    Label:
+     size_hint:1,0.5
+     text:"Click the below button to generate your RSA keys"
+    Button:
+     background_color:"green"
+     size_hint:1,0.5
+     on_release:root.keyPage(root)
+     text:"Generate keys"
+    Button:
+     size_hint:1,0.5
+     on_release:root.current="homePage"
+     text:"Back"
+  
+ Screen:
+  name:"keyPage"
+  BoxLayout:
+   size:root.width,root.height
+   GridLayout:
+    cols:1
+    Label:
+     size_hint:1,0.3
+     color:"yellow"
+     text:"Your tokens are below"
+    Label:
+     id:pub
+     text:"Pubic Key is "
+     color:"green"
+     size_hint:1,0.3
+     #text_size:self.width,self.height
+    Label:
+     id:prv
+     text: "Private key is "
+     color:"#00FFCE"
+     size_hint:1,0.3
+     #text_size:self.width,self.height
+    Label:
+     id:tnkey
+     size_hint:1,0.3
+     color:"green"
+     text:"Totient is "
+     #text_size:self.width,self.height
+    Label:
+     text:"Ensure you keep your tokens very secret"
+     font_size:50
+     color:"red"
+     size_hint:1,0.4
+     #text_size:self.width,self.height
+    Button:
+     size_hint:1,0.3
+     on_release:root.current="homePage"
+     text:"Return Home"
+ Screen:
+  name:"EncodePage"
+  BoxLayout:
+   size:root.width,root.height
+   orientation:"vertical"
+   GridLayout:
+    cols:1
+    Label:
+     text:"Enter the message you want to encode below"
+    TextInput:
+     id:msgEn
+     #size_hint:(1,.2)
+     #multiline:False
+   GridLayout:
+   #ScrollView:
+    #do_row_y:True
+    #do_row_x:False
+    #size_hint:1,1
+    cols:1
+    #GridLayout:
+     #size_hint_y:None
+     #cols:1
+    Label:
+     #font_size:80
+     size_hint:1,1
+     text:"Enter your Public key"
+    TextInput:
+     id:pbk1
+     size_hint:(1,1)
+     multiline:False
+    Label:
+     text:"Enter your Totient"
+    TextInput:
+     id:totk
+      #size_hint:(1,0.3)
+     multiline:False
+   Label:
+    id:err
+    size_hint:1,0.3
+    text:""
+    color:"red"
+   Button:
+    id:subt
+    background_color:"#00FFCE"
+    size_hint:1,0.8
+    on_release:
+     #root.current ="encryptedMsgPage"
+     root.encodeMsg(root)
+    text:"Submit"
+   Button:
+    size_hint:1,0.5
+    id:rtrn
+    on_release:root.current="homePage"
+    text:"Return Home"
+ 
+ Screen:
+  name:"encryptedMsgPage"
+  BoxLayout:
+   size:root.width,root.height
+   orientation:"vertical"
+   GridLayout:
+    cols:1
+    size_hint:1,0.2
+    Label:
+     size_hint:1,0.1
+     text:"Encrypted message is below, do well to keep them safe for decryption in future if you need the message"
+     text_size:self.width,self.height
+     color:"yellow"
+   #ScrollView:
+    #do_row_y:True
+    #do_row_y:False
+    #GridLayout:
+   Label:
+    id:encryptMsg
+    text:""
+    text_size:self.width,self.height
+   Button:
+    on_release:root.current ="EncodePage"
+    size_hint:1,0.1
+    text:"Back"
+  
+ Screen:
+  name:"decryptMsgPage"
+  BoxLayout:
+   orientation:"vertical"
+   GridLayout:
+    cols:1
+    size_hint:1,0.8
+    Label:
+     size_hint:(1,0.4)
+     text:"Welcome to decrypting page"
+    Label:
+     text:"Enter your encoded message (the cipher message)"
+     text_size:self.width,self.height
+    TextInput:
+     id:msgDcr
+     size:root.width,root.height
+    Label:
+     text:"Enter your private key"
+    TextInput:
+     id:prk1
+     size:root.width,root.height
+     multiline:False
+    Label:
+     text:"Enter your Totient"
+    TextInput:
+     id:tot2
+     multiline:False
+    Label:
+     id:err2
+     size_hint:1,0.8
+     text_size:self.width,self.height
+     text:""
+     color:"red"
+    Button:
+     id:btn3
+     on_release:
+      #root.current="ShowDecryptMsgPage"
+      root.decodeMsg(root)
+     text:"Submit"
+   GridLayout:
+    cols:1
+    size_hint:1,0.2
+    Button:
+     size_hint:1,0.2
+     on_release:root.current ="homePage"
+     id:"bk2"
+     text:"Back"
+  
+ Screen:
+  name:"ShowDecryptMsgPage"
+  BoxLayout:
+   orientation:"vertical"
+   size:root.width,root.height
+   GridLayout:
+    cols:1
+    size_hint:1,0.4
+    Label:
+     text:"Below is the decrypted message"
+     #text_size:self.width,self.height
+    Label:
+     id:shwCrt
+     text:""
+     text_size:self.width,self.height
+   GridLayout:
+    cols:1
+    size_hint:(1,0.1)
+    Button:
+     id:rtn4
+     on_release:root.current="decryptMsgPage"
+     text:"Back"
+     
